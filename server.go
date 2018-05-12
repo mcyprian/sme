@@ -3,9 +3,14 @@ package main
 import (
 	"fmt"
 	"net/http"
+
+	"github.com/mcyprian/sme/storage"
 )
 
 func main() {
+	storage.GenerateExampleData()
+	storage.QueryExampleData()
+
 	fs := http.FileServer(http.Dir("static"))
 	http.Handle("/", fs)
 
