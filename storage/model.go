@@ -33,14 +33,16 @@ type Offer struct {
 	gorm.Model
 	AirportID    uint
 	HelicopterID uint
+	Price        float64
 	Orders       []Order
 }
 
 type Order struct {
 	gorm.Model
-	Time     time.Time
-	ClientID uint
-	OfferID  uint
+	StartTime time.Time
+	EndTime   time.Time
+	ClientID  uint
+	OfferID   uint
 }
 
 var Db *gorm.DB = nil
