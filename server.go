@@ -11,9 +11,16 @@ func main() {
 	storage.GenerateExampleData()
 	storage.QueryExampleData()
 
-	fs := http.FileServer(http.Dir("static"))
-	http.Handle("/", fs)
+	mux := http.NewServeMux()
+	files := http.FileServer(http.Dir(config.Static))
+	mux.Handle("/static/", files)
+	mux.HandleFunc("/", Index)
+	mux.HandleFunc("/err", Err)
 
+	server := &http.Server{
+		Addr:    "0.0.0.0:8080",
+		Handler: mux,
+	}
 	fmt.Println("Listening at: http://0.0.0.0:8080")
-	http.ListenAndServe(":8080", nil)
+	server.ListenAndServe()
 }

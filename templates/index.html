@@ -1,0 +1,11 @@
+{{ define "content" }}
+<p class="lead">
+    Current offers:
+</p>
+<ul>
+    {{ range . }}
+    <li>{{ .Airport }} - {{ .Manufacturer}} {{ .Type }}, price {{ .Price }}€/hour</li>
+    {{ end }}
+</ul>
+
+{{ end }}
