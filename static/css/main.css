@@ -1,0 +1,81 @@
+* {
+  box-sizing: border-box;
+}
+
+.airport-listing {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: 250px;
+  grid-auto-rows: minmax(200px, 300px);
+}
+
+.airport-listing > div {
+  background-color: grey;
+}
+
+@media (max-width: 991.98px) {
+  .airport-listing {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 575.98px) {
+  .airport-listing {
+    grid-template-columns: 1fr;
+  }
+}
+
+.airport-listing .airport-image {
+  grid-row: 1;
+  grid-column: 1 / span 3;
+
+  border-radius: 40px 80px 10px 10px;
+  margin-bottom: 15px;
+}
+@media (max-width: 991.98px) {
+  .airport-listing .airport-image {
+    grid-column: 1 / span 2;
+  }
+}
+@media (max-width: 575.98px) {
+  .airport-listing .airport-image {
+    grid-column: 1;
+  }
+}
+
+.box-shadow {
+  box-shadow: 0px 5px 10px 0px #908e8e;
+}
+
+.plane-thumbnail {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 3fr 1fr;
+  margin: 8px;
+}
+
+.plane-thumbnail-image {
+  width: 100%;
+  height: 100%;
+  background-image: url("https://www.placehold.it/300/09f/fff.png");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
+
+.plane-thumbnail-body {
+  padding: 5px;
+  background-color: yellowgreen;
+}
+
+.navbar-default .navbar-nav>li>a:hover,
+.navbar-default .navbar-nav>li>a:focus {
+  border-bottom: 2px solid black;
+  margin-bottom: -2px;
+}
+
+@media (max-width: 767.98px) {
+  .navbar-default .navbar-nav>li>a:hover,
+  .navbar-default .navbar-nav>li>a:focus {
+    border-bottom: 0;
+    margin-bottom: 0; 
+  }
+}
