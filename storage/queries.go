@@ -6,8 +6,6 @@ import (
 )
 
 func GenerateExampleData() {
-	Init()
-
 	Db.DropTable(&Airport{})
 	Db.DropTable(&Helicopter{})
 	Db.DropTable(&Client{})
@@ -46,7 +44,6 @@ func GenerateExampleData() {
 }
 
 func QueryExampleData() {
-	Init()
 	var airport Airport
 	var helicopter Helicopter
 	var client Client

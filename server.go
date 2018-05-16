@@ -8,14 +8,16 @@ import (
 )
 
 func main() {
+	loadConfig()
+	storage.Init(config.DBHost, config.DBPasswd)
 	storage.GenerateExampleData()
 	storage.QueryExampleData()
 
 	mux := http.NewServeMux()
 	files := http.FileServer(http.Dir(config.Static))
-	mux.Handle("/static/", files)
-	mux.HandleFunc("/", Index)
-	mux.HandleFunc("/err", Err)
+	mux.Handle("/static/", http.StripPrefix("/static/", files))
+	mux.HandleFunc("/", index)
+	mux.HandleFunc("/err", err)
 
 	server := &http.Server{
 		Addr:    "0.0.0.0:8080",

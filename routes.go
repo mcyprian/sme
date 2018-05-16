@@ -18,7 +18,7 @@ func generateHTML(writer http.ResponseWriter, data interface{}, filenames ...str
 	templates.ExecuteTemplate(writer, "base", data)
 }
 
-func Index(writer http.ResponseWriter, request *http.Request) {
+func index(writer http.ResponseWriter, request *http.Request) {
 	offers, err := storage.GetCurrentOffers()
 	if err != nil {
 		panic(err)
@@ -26,7 +26,7 @@ func Index(writer http.ResponseWriter, request *http.Request) {
 	generateHTML(writer, offers, "base", "navbar", "index")
 }
 
-func Err(writer http.ResponseWriter, request *http.Request) {
+func err(writer http.ResponseWriter, request *http.Request) {
 	vals := request.URL.Query()
 	generateHTML(writer, vals.Get("msg"), "base", "navbar", "error")
 }

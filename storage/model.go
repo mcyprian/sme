@@ -1,6 +1,7 @@
 package storage
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/jinzhu/gorm"
@@ -48,10 +49,11 @@ type Order struct {
 var Db *gorm.DB = nil
 
 // open connection to the database
-func Init() {
+func Init(host string, password string) {
 	if Db == nil {
 		var err error
-		Db, err = gorm.Open("postgres", "host=localhost user=postgres dbname=postgres password=postgres sslmode=disable")
+		connectionStr := fmt.Sprintf("host=%s user=postgres dbname=postgres password=%s sslmode=disable", host, password)
+		Db, err = gorm.Open("postgres", connectionStr)
 		if err != nil {
 			panic(err)
 		}

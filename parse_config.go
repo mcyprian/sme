@@ -10,6 +10,8 @@ type Configuration struct {
 	ReadTimeout  int64
 	WriteTimeout int64
 	Static       string
+	DBHost       string
+	DBPasswd     string
 }
 
 var config Configuration
