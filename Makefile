@@ -26,7 +26,7 @@ fmt:
 	@gofmt -l -w $(SRC)
 
 deps:
-	@godep save
+	@dep ensure
 
 clean:
 	if [ -f ${TARGET} ] ; then rm ${TARGET} ; fi
