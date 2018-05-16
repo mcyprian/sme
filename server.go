@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"net/http"
+	"time"
 
 	"github.com/mcyprian/sme/storage"
 )
@@ -22,8 +23,10 @@ func main() {
 	mux.HandleFunc("/err", err)
 
 	server := &http.Server{
-		Addr:    "0.0.0.0:8080",
-		Handler: mux,
+		Addr:         "0.0.0.0:8080",
+		Handler:      mux,
+		ReadTimeout:  time.Duration(config.ReadTimeout * int64(time.Second)),
+		WriteTimeout: time.Duration(config.WriteTimeout * int64(time.Second)),
 	}
 	fmt.Println("Listening at: http://0.0.0.0:8080")
 	server.ListenAndServe()
