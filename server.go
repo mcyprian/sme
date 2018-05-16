@@ -17,6 +17,8 @@ func main() {
 	files := http.FileServer(http.Dir(config.Static))
 	mux.Handle("/static/", http.StripPrefix("/static/", files))
 	mux.HandleFunc("/", index)
+	mux.HandleFunc("/order", order)
+	mux.HandleFunc("/order_flight", orderFlight)
 	mux.HandleFunc("/err", err)
 
 	server := &http.Server{
