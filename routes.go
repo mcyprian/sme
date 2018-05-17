@@ -23,7 +23,7 @@ func index(writer http.ResponseWriter, request *http.Request) {
 	if err != nil {
 		panic(err)
 	}
-	generateHTML(writer, offers, "airport", "base", "navbar", "index")
+	generateHTML(writer, offers, "airport", "planeThumbnail", "base", "navbar", "index")
 }
 
 // GET /order
