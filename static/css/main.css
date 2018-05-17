@@ -2,6 +2,13 @@
   box-sizing: border-box;
 }
 
+div.image {
+  width: 100%;
+  height: 100%;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
+
 .airport-listing {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -24,6 +31,23 @@
   }
 }
 
+div.image.airport-image {
+  position: relative;
+  background-size: cover;
+  background-position: center;
+}
+
+.airport-header {
+  position: absolute;
+  bottom: 0;
+  left: 5%;
+  color: rgb(236, 236, 236);
+  font-variant: small-caps;
+  font-weight: 700;
+  text-shadow: 1px 1px 5px #908e8e;
+  font-size: 7em;
+}
+
 .airport-listing .airport-image {
   grid-row: 1;
   grid-column: 1 / span 3;
@@ -43,7 +67,7 @@
 }
 
 .box-shadow {
-  box-shadow: 0px 5px 10px 0px #908e8e;
+  box-shadow: 1px 1px 5px 0px #908e8e;
 }
 
 .plane-thumbnail {
@@ -51,19 +75,16 @@
   grid-template-columns: 1fr;
   grid-template-rows: 3fr 1fr;
   margin: 8px;
+  cursor: pointer;
 }
 
 .plane-thumbnail-image {
-  width: 100%;
-  height: 100%;
-  background-image: url("https://www.placehold.it/300/09f/fff.png");
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
+  background-image: url("http://www.copterstuff.com/rhctraining.com/assets/img/hero-R44-helicopter.jpg");
 }
 
 .plane-thumbnail-body {
   padding: 5px;
-  background-color: yellowgreen;
+  background-color: #fafafa;
 }
 
 .navbar-default .navbar-nav>li>a:hover,
