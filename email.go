@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"net/smtp"
+	"time"
 )
 
 const (
@@ -11,6 +12,22 @@ const (
 	GMAIL_SMTP = "smtp.gmail.com"
 	PORT       = "587"
 )
+
+var orderMsg = `
+Thanks for your order!
+
+Please review your order:
+ORDER NUMBER: %02X
+ORDER DATE: %s
+
+%s
+
+In case you have some questions contact us:
+E-mail: flyitservice.gmail.com.
+Webpage: http://159.122.183.212:32122
+
+Your FlyIT team.
+`
 
 func sendMail(recipient string, subject string, body string) {
 	msg := "From: " + SENDER + "\n" +
@@ -25,4 +42,14 @@ func sendMail(recipient string, subject string, body string) {
 	if err != nil {
 		panic(err)
 	}
+}
+
+func sendOrderMail(recipient string, orderNum []byte, goods string) {
+	/*    sendMail(recipient,
+	      fmt.Sprintf("Your FlyIT order %s", orderNum),
+	      fmt.Sprintf(orderMsg, orderNum, time.Now(), goods))
+	*/
+
+	fmt.Println(fmt.Sprintf("Your FlyIT order %02X", orderNum))
+	fmt.Println(fmt.Sprintf(orderMsg, orderNum, time.Now().Local().Format("2006-01-31"), goods))
 }

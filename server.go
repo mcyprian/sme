@@ -9,6 +9,7 @@ import (
 )
 
 func main() {
+	sendOrderMail("m.cyprian@gmail.com", generateID(), "Premium flying broomstick")
 	loadConfig()
 	storage.Init(config.DBHost, config.DBPasswd)
 	storage.GenerateExampleData()
