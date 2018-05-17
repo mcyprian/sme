@@ -46,9 +46,12 @@ func orderFlight(writer http.ResponseWriter, request *http.Request) {
 		Email:     request.PostFormValue("email"),
 		Phone:     request.PostFormValue("phone"),
 		// TODO add offer id
+		ReturnCode: generateID(),
 	}
 	fmt.Println(order)
 	storage.Db.Create(&order)
+	sendOrderMail(order.Email, order.ID, order.StartTime, order.ReturnCode,
+		"Premium flying broomstick")
 	http.Redirect(writer, request, "/", 302)
 }
 

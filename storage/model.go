@@ -32,12 +32,13 @@ type Offer struct {
 
 type Order struct {
 	gorm.Model
-	StartTime time.Time
-	EndTime   time.Time
-	Name      string
-	Email     string
-	Phone     string
-	OfferID   uint
+	StartTime  time.Time
+	EndTime    time.Time
+	Name       string
+	Email      string
+	Phone      string
+	ReturnCode []byte
+	OfferID    uint
 }
 
 var Db *gorm.DB = nil
