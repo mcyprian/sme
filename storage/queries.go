@@ -49,6 +49,7 @@ func GenerateExampleData() {
 
 	cheap := Offer{HelicopterID: ranger.ID, Price: 100.0}
 	sport := Offer{HelicopterID: eurocopter.ID, Price: 180.0}
+	zlinoffer := Offer{HelicopterID: zlin.ID, Price: 90.0}
 
 	offer := Offer{HelicopterID: zlin.ID, Price: 150.0}
 	Db.Create(&offer)
@@ -58,6 +59,7 @@ func GenerateExampleData() {
 	Db.Create(&sport)
 
 	Db.Model(&medlanky).Association("Offers").Append(cheap)
+	Db.Model(&medlanky).Association("Offers").Append(zlinoffer)
 	Db.Model(&turany).Association("Offers").Append(sport)
 	Db.Model(&cheap).Association("Orders").Append(flight)
 
@@ -115,7 +117,7 @@ func GetAllOffers() ([]*OffersRow, error) {
 	return offers, nil
 }
 
-func GetCurrentOffers() ([]*OffersRow, error) {
+func GetCurrentOffers() (map[string][]*OffersRow, error) {
 	isOrdered := false
 
 	offers := make([]*OffersRow, 0)
@@ -123,16 +125,16 @@ func GetCurrentOffers() ([]*OffersRow, error) {
 	ords, er := Db.Table("orders").Select(
 		"orders.offer_id").Rows()
 	if er != nil {
-		return offers, er
+		return nil, er
 	}
 
 	rows, err := Db.Table("offers").Select(
 		"airports.name, helicopters.manufacturer, helicopters.type, offers.price, offers.id").Joins(
-		"left join airports on airports.id = offers.airport_id").Joins(
-		"left join helicopters on helicopters.id = offers.helicopter_id").Rows()
+		"join airports on airports.id = offers.airport_id").Joins(
+		"join helicopters on helicopters.id = offers.helicopter_id").Rows()
 
 	if err != nil {
-		return offers, err
+		return nil, err
 	}
 
 	for rows.Next() {
@@ -146,7 +148,7 @@ func GetCurrentOffers() ([]*OffersRow, error) {
 		for ords.Next() {
 			er := ords.Scan(&ordid)
 			if er != nil {
-				return offers, er
+				return nil, er
 			}
 			if ordid == rst.OfferID {
 				isOrdered = true
@@ -157,5 +159,14 @@ func GetCurrentOffers() ([]*OffersRow, error) {
 		}
 		isOrdered = false
 	}
-	return offers, nil
+	return GroupByAirport(offers), nil
+}
+
+// GroupByAirport creates map which arirports as a key for the front page listing
+func GroupByAirport(offers []*OffersRow) map[string][]*OffersRow {
+	offersMap := make(map[string][]*OffersRow)
+	for _, offer := range offers {
+		offersMap[offer.Airport] = append(offersMap[offer.Airport], offer)
+	}
+	return offersMap
 }
