@@ -22,14 +22,6 @@ type Helicopter struct {
 	Offered      []Offer `gorm:"foreignkey:HelicopterID"`
 }
 
-type Client struct {
-	gorm.Model
-	Name   string
-	Email  string
-	Phone  string
-	Orders []Order
-}
-
 type Offer struct {
 	gorm.Model
 	AirportID    uint
@@ -42,7 +34,9 @@ type Order struct {
 	gorm.Model
 	StartTime time.Time
 	EndTime   time.Time
-	ClientID  uint
+	Name      string
+	Email     string
+	Phone     string
 	OfferID   uint
 }
 

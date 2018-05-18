@@ -8,11 +8,10 @@ import (
 func GenerateExampleData() {
 	Db.DropTable(&Airport{})
 	Db.DropTable(&Helicopter{})
-	Db.DropTable(&Client{})
 	Db.DropTable(&Offer{})
 	Db.DropTable(&Order{})
 
-	Db.AutoMigrate(&Airport{}, &Helicopter{}, &Client{}, &Offer{}, &Order{})
+	Db.AutoMigrate(&Airport{}, &Helicopter{}, &Offer{}, &Order{})
 
 	medlanky := Airport{Name: "Letisko Medlánky", Address: "Turistická 67, Brno"}
 	turany := Airport{Name: "Letište Tuřany", Address: "Tuřany 904/1, Brno"}
@@ -29,8 +28,6 @@ func GenerateExampleData() {
 	orlik := Helicopter{Manufacturer: "Orlik", Type: "VT116 MUNI-4321"}
 	vosa := Helicopter{Manufacturer: "Vosa", Type: "VSO10 MUNI-1504"}
 
-	ondro := Client{Name: "Ondrej Nečas", Email: "onecas@seznam.cz", Phone: "+421 758 633 715"}
-
 	Db.Create(&medlanky)
 	Db.Create(&turany)
 	Db.Create(&ranger)
@@ -44,8 +41,9 @@ func GenerateExampleData() {
 	Db.Create(&blanikS)
 	Db.Create(&orlik)
 	Db.Create(&vosa)
-	Db.Create(&ondro)
-	flight := Order{StartTime: time.Now(), EndTime: time.Now().Add(time.Hour * 3), ClientID: ondro.ID}
+	flight := Order{StartTime: time.Now(), EndTime: time.Now().Add(time.Hour * 3),
+		Name: "Ondrej Nečas", Email: "onecas@seznam.cz",
+		Phone: "+421 758 633 715"}
 
 	cheap := Offer{HelicopterID: ranger.ID, Price: 100.0}
 	sport := Offer{HelicopterID: eurocopter.ID, Price: 180.0}
@@ -68,15 +66,12 @@ func GenerateExampleData() {
 func QueryExampleData() {
 	var airport Airport
 	var helicopter Helicopter
-	var client Client
 	var offers []Offer
 	var orders []Order
 
 	Db.Last(&airport)
 	Db.First(&helicopter)
-	Db.First(&client)
 	fmt.Println(airport)
-	fmt.Println(client)
 
 	// Db.Find(&offers)
 	// Db.Model(&airport).Related(&offers)

@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/http"
 	"text/template"
+	"time"
 
 	"github.com/mcyprian/sme/storage"
 )
@@ -39,13 +40,15 @@ func orderFlight(writer http.ResponseWriter, request *http.Request) {
 	if err != nil {
 		panic(err)
 	}
-	client := storage.Client{
-		Name:  request.PostFormValue("name"),
-		Email: request.PostFormValue("email"),
-		Phone: request.PostFormValue("phone"),
+	order := storage.Order{
+		StartTime: time.Now().Local(),
+		Name:      request.PostFormValue("name"),
+		Email:     request.PostFormValue("email"),
+		Phone:     request.PostFormValue("phone"),
+		// TODO add offer id
 	}
-	fmt.Println(client)
-	storage.Db.Create(&client)
+	fmt.Println(order)
+	storage.Db.Create(&order)
 	http.Redirect(writer, request, "/", 302)
 }
 
