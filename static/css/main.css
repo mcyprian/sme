@@ -12,8 +12,7 @@ div.image {
 .airport-listing {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: 250px;
-  grid-auto-rows: minmax(200px, 300px);
+  grid-auto-rows: minmax(200px, auto);
 }
 
 .airport-listing > div {
@@ -31,12 +30,6 @@ div.image {
   }
 }
 
-div.image.airport-image {
-  position: relative;
-  background-size: cover;
-  background-position: center;
-}
-
 .airport-header {
   position: absolute;
   bottom: 0;
@@ -49,9 +42,11 @@ div.image.airport-image {
 }
 
 .airport-listing .airport-image {
-  grid-row: 1;
   grid-column: 1 / span 3;
 
+  position: relative;
+  background-size: cover;
+  background-position: center;
   border-radius: 40px 80px 10px 10px;
   margin-bottom: 15px;
 }

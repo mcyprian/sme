@@ -1,13 +1,14 @@
 {{ define "content" }}
 <div>
   <div class="airport-listing">
-    {{ template "airport" . }}
-    {{ template "planeThumbnail" . }}
-    {{ template "planeThumbnail" . }}
-    {{ template "planeThumbnail" . }}
-    {{ template "planeThumbnail" . }}
-    {{ template "planeThumbnail" . }}
-    {{ template "planeThumbnail" . }}
+    {{ range $airport, $offers := . }}
+      {{ template "airport" $airport }}
+      {{ range $offers }}
+        {{ template "planeThumbnail" . }}
+      {{ end }}
+    {{ end }}
+    <!-- {{ template "airport" . }}
+    {{ template "planeThumbnail" . }} -->
 </div>
   <!-- {{ range . }} -->
   <!-- {{ .Airport }} - {{ .Manufacturer}} {{ .Type }}, price {{ .Price }}€/hour -->

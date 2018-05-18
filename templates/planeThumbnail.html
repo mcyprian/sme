@@ -3,8 +3,8 @@
   <div class="plane-thumbnail-image image">
   </div>
   <div class="plane-thumbnail-body">
-    <h5>Helicopter 117</h5>
-    <p>from <b>100€/hour</b></p>
+    <h5>{{ .Manufacturer }} {{ .Type }}</h5>
+    <p>from <b>{{ .Price }}€/hour</b></p>
   </div>
 </div>
 {{ end }}
