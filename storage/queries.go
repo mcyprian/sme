@@ -20,6 +20,14 @@ func GenerateExampleData() {
 	ranger := Helicopter{Manufacturer: "Bell", Type: "505 Jet Ranger X"}
 	sikorsky := Helicopter{Manufacturer: "Sikorsky", Type: "S-76C"}
 	eurocopter := Helicopter{Manufacturer: "Eurocopter", Type: "AS350"}
+	dynamic := Helicopter{Manufacturer: "Dynamic", Type: "WT9 MUNI-OUU 34"}
+	zlin := Helicopter{Manufacturer: "Zlin", Type: "Z-226 MUNI-MGM"}
+	piper := Helicopter{Manufacturer: "Piper", Type: "J3C-65 Cub MUNI-ONY"}
+	piperPaw := Helicopter{Manufacturer: "Piper", Type: "Pawnee MUNI-MLP"}
+	blanik := Helicopter{Manufacturer: "Blanik", Type: "L13 MUNI-1823"}
+	blanikS := Helicopter{Manufacturer: "Blanik", Type: "Super L23 MUNI-5550"}
+	orlik := Helicopter{Manufacturer: "Orlik", Type: "VT116 MUNI-4321"}
+	vosa := Helicopter{Manufacturer: "Vosa", Type: "VSO10 MUNI-1504"}
 
 	ondro := Client{Name: "Ondrej Nečas", Email: "onecas@seznam.cz", Phone: "+421 758 633 715"}
 
@@ -28,11 +36,23 @@ func GenerateExampleData() {
 	Db.Create(&ranger)
 	Db.Create(&sikorsky)
 	Db.Create(&eurocopter)
+	Db.Create(&dynamic)
+	Db.Create(&zlin)
+	Db.Create(&piper)
+	Db.Create(&piperPaw)
+	Db.Create(&blanik)
+	Db.Create(&blanikS)
+	Db.Create(&orlik)
+	Db.Create(&vosa)
 	Db.Create(&ondro)
 	flight := Order{StartTime: time.Now(), EndTime: time.Now().Add(time.Hour * 3), ClientID: ondro.ID}
 
 	cheap := Offer{HelicopterID: ranger.ID, Price: 100.0}
 	sport := Offer{HelicopterID: eurocopter.ID, Price: 180.0}
+
+	offer := Offer{HelicopterID: zlin.ID, Price: 150.0}
+	Db.Create(&offer)
+	Db.Model(&turany).Association("Offers").Append(offer)
 
 	Db.Create(&cheap)
 	Db.Create(&sport)
@@ -70,9 +90,10 @@ type OffersRow struct {
 	Manufacturer string
 	Type         string
 	Price        float64
+	OfferID      uint
 }
 
-func GetCurrentOffers() ([]*OffersRow, error) {
+func GetAllOffers() ([]*OffersRow, error) {
 	rows, err := Db.Table("offers").Select(
 		"airports.name, helicopters.manufacturer, helicopters.type, offers.price").Joins(
 		"left join airports on airports.id = offers.airport_id").Joins(
@@ -90,6 +111,51 @@ func GetCurrentOffers() ([]*OffersRow, error) {
 		}
 
 		offers = append(offers, rst)
+	}
+	return offers, nil
+}
+
+func GetCurrentOffers() ([]*OffersRow, error) {
+	isOrdered := false
+
+	offers := make([]*OffersRow, 0)
+
+	ords, er := Db.Table("orders").Select(
+		"orders.offer_id").Rows()
+	if er != nil {
+		return offers, er
+	}
+
+	rows, err := Db.Table("offers").Select(
+		"airports.name, helicopters.manufacturer, helicopters.type, offers.price, offers.id").Joins(
+		"left join airports on airports.id = offers.airport_id").Joins(
+		"left join helicopters on helicopters.id = offers.helicopter_id").Rows()
+
+	if err != nil {
+		return offers, err
+	}
+
+	for rows.Next() {
+		rst := new(OffersRow)
+		err := rows.Scan(&rst.Airport, &rst.Manufacturer, &rst.Type, &rst.Price, &rst.OfferID)
+		if err != nil {
+			panic(err)
+		}
+
+		ordid := uint(0)
+		for ords.Next() {
+			er := ords.Scan(&ordid)
+			if er != nil {
+				return offers, er
+			}
+			if ordid == rst.OfferID {
+				isOrdered = true
+			}
+		}
+		if !isOrdered {
+			offers = append(offers, rst)
+		}
+		isOrdered = false
 	}
 	return offers, nil
 }
