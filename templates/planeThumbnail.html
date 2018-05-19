@@ -1,11 +1,9 @@
 {{ define "planeThumbnail" }}
 <a href="/order?type={{ .Type }}&airport={{ .Airport }}&manufacturer={{ .Manufacturer }}&offerID={{ .OfferID }}"> 
-<div class="plane-thumbnail box-shadow">
-
+  <div class="plane-thumbnail box-shadow">
     <div class="plane-thumbnail-image image">
     </div>
     <div class="plane-thumbnail-body">
-      
       <h5>{{ .Manufacturer }} {{ .Type }} </h5>
       <p>from <b>{{ .Price }}€/hour</b></p>
     </div>

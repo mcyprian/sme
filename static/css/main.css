@@ -40,6 +40,16 @@ div.image {
   text-shadow: 1px 1px 5px #908e8e;
   font-size: 7em;
 }
+@media (max-width: 991.98px) {
+  .airport-header {
+    font-size: 5em;
+  }
+}
+@media (max-width: 575.98px) {
+  .airport-header {
+    font-size: 4em;
+  }
+}
 
 .airport-listing .airport-image {
   grid-column: 1 / span 3;
