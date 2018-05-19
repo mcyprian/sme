@@ -39,6 +39,7 @@ div.image {
   font-weight: 700;
   text-shadow: 1px 1px 5px #908e8e;
   font-size: 7em;
+  cursor: default;
 }
 @media (max-width: 991.98px) {
   .airport-header {
@@ -73,6 +74,11 @@ div.image {
 
 .box-shadow {
   box-shadow: 1px 1px 5px 0px #908e8e;
+}
+
+.plane-thumbnail-link:hover,
+.plane-thumbnail-link:focus {
+  text-decoration: none;
 }
 
 .plane-thumbnail {
