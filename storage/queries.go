@@ -131,7 +131,7 @@ func GetCurrentOffers() (map[string][]*OffersRow, error) {
 	if err != nil {
 		return nil, err
 	}
-
+	// For every aircraft chceck if its not already ordered
 	for rows.Next() {
 		rst := new(OffersRow)
 		err := rows.Scan(&rst.Airport, &rst.Manufacturer, &rst.Type, &rst.Price, &rst.OfferID)
@@ -153,6 +153,12 @@ func GetCurrentOffers() (map[string][]*OffersRow, error) {
 			offers = append(offers, rst)
 		}
 		isOrdered = false
+		// Get list of orders again
+		ords, er = Db.Table("orders").Select(
+			"orders.offer_id").Rows()
+		if er != nil {
+			return nil, er
+		}
 	}
 	return GroupByAirport(offers), nil
 }

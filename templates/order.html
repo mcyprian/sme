@@ -6,7 +6,14 @@
       FlyIT
     </i>
   </h2>
+  <h4>Reservation details:</h4>
+  <h5><b>Aicraft:</b> {{ .Manufacturer}} {{.Type}}</h5>
+  <h5><b>Airport:</b> {{ .Airport}}</h5>
+  <hr>
   <div class="lead">Fill the form below to create flight order</div>
+  <input name="offerID" type="hidden" class="form-control" value="{{.OfferID}}">
+  <input name="manufacturer" type="hidden" class="form-control" value="{{.Manufacturer}}">
+  <input name="type" type="hidden" class="form-control" value="{{.Type}}">
   <input id="name" type="text" name="name" class="form-control" placeholder="Name" required autofocus>
   <input type="email" name="email" class="form-control" placeholder="Email address" required>
   <input type="tel" name="phone" class="form-control" placeholder="Phone number" required>
