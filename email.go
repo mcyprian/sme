@@ -25,7 +25,7 @@ ORDER DATE: %s
 Your return code: %02X
 
 In case you have some questions contact us:
-E-mail: flyitservice.gmail.com.
+E-mail: flyitservice@gmail.com.
 Webpage: http://159.122.183.212:32122
 
 Your FlyIT team.
