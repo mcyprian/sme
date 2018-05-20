@@ -15,8 +15,16 @@
     </div>
     <div class="navbar-collapse collapse">
       <ul class="nav navbar-nav navbar-right">
+        <li>
+          <a data-toggle="modal" data-target="#exampleModal">
+            Return Plane
+          </a>
+        </li>
       </ul>
     </div>
   </div>
+</div>
+<div>
+{{ template "return" . }}
 </div>
 {{ end }}

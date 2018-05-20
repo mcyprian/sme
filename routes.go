@@ -26,7 +26,7 @@ func index(writer http.ResponseWriter, request *http.Request) {
 	if err != nil {
 		panic(err)
 	}
-	generateHTML(writer, offers, "airport", "planeThumbnail", "base", "navbar", "index")
+	generateHTML(writer, offers, "airport", "planeThumbnail", "base", "navbar", "return", "index")
 }
 
 type Offer struct {
@@ -77,7 +77,7 @@ func order(writer http.ResponseWriter, request *http.Request) {
 	offer.Manufacturer = manufacturer
 	offer.Type = aircraftType
 	offer.OfferID = offerID
-	generateHTML(writer, offer, "base", "navbar", "order")
+	generateHTML(writer, offer, "base", "navbar", "return", "order")
 }
 
 // POST /order_flight
@@ -112,5 +112,5 @@ func orderFlight(writer http.ResponseWriter, request *http.Request) {
 
 func err(writer http.ResponseWriter, request *http.Request) {
 	vals := request.URL.Query()
-	generateHTML(writer, vals.Get("msg"), "base", "navbar", "error")
+	generateHTML(writer, vals.Get("msg"), "base", "navbar", "return", "error")
 }

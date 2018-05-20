@@ -1,0 +1,21 @@
+{{ define "return" }}
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Insert the return code</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form role="form">
+        <div class="modal-body">
+          <input id="code" type="text" name="code" class="form-control" placeholder="Return Code" required autofocus>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">Return plane</button>
+        </div>
+      </form>
+    </div>
+  </div>
+{{ end }}
