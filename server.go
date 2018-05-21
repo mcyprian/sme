@@ -21,6 +21,7 @@ func main() {
 	mux.HandleFunc("/order", order)
 	mux.HandleFunc("/order_flight", orderFlight)
 	mux.HandleFunc("/err", err)
+	mux.HandleFunc("/return_confirm", return_confirm)
 
 	server := &http.Server{
 		Addr:         "0.0.0.0:8080",

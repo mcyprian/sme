@@ -110,6 +110,22 @@ func orderFlight(writer http.ResponseWriter, request *http.Request) {
 	http.Redirect(writer, request, "/", 302)
 }
 
+func return_confirm(writer http.ResponseWriter, request *http.Request) {
+	err := request.ParseForm()
+	if err != nil {
+		panic(err)
+	}
+	returnCode := request.PostFormValue("code")
+
+	offer := storage.GetOrder(returnCode)
+	if offer.OrderID == -1 {
+		generateHTML(writer, "Return denied. WRONG return code.", "base", "navbar", "return", "return_confirm")
+	} else {
+		storage.AddEndTimeToOrder(offer.OrderID)
+		generateHTML(writer, "Aicraft was successfully returned. Thank you", "base", "navbar", "return", "return_confirm")
+	}
+}
+
 func err(writer http.ResponseWriter, request *http.Request) {
 	vals := request.URL.Query()
 	generateHTML(writer, vals.Get("msg"), "base", "navbar", "return", "error")

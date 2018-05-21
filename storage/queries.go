@@ -41,6 +41,7 @@ func GenerateExampleData() {
 	Db.Create(&blanikS)
 	Db.Create(&orlik)
 	Db.Create(&vosa)
+
 	flight := Order{StartTime: time.Now(), EndTime: time.Now().Add(time.Hour * 3),
 		Name: "Ondrej Nečas", Email: "onecas@seznam.cz",
 		Phone: "+421 758 633 715"}
@@ -60,7 +61,6 @@ func GenerateExampleData() {
 	Db.Model(&medlanky).Association("Offers").Append(zlinoffer)
 	Db.Model(&turany).Association("Offers").Append(sport)
 	Db.Model(&cheap).Association("Orders").Append(flight)
-
 }
 
 func QueryExampleData() {
@@ -112,17 +112,42 @@ func GetAllOffers() ([]*OffersRow, error) {
 	return offers, nil
 }
 
+type OrderRow struct {
+	OrderID    int
+	Name       string
+	ReturnCode string
+}
+
+func GetOrder(returnCode string) *OrderRow {
+	ords, err := Db.Table("orders").Select(
+		"orders.id, orders.name, orders.return_code").Rows()
+	if err != nil {
+		panic(err)
+	}
+	orderToReturn := new(OrderRow)
+
+	for ords.Next() {
+		err = ords.Scan(&orderToReturn.OrderID, &orderToReturn.Name, &orderToReturn.ReturnCode)
+		if orderToReturn.ReturnCode == returnCode {
+			return orderToReturn
+		}
+	}
+	// signalize no order with this return code
+	orderToReturn.OrderID = -1
+	return orderToReturn
+}
+
 func GetCurrentOffers() (map[string][]*OffersRow, error) {
 	isOrdered := false
 
 	offers := make([]*OffersRow, 0)
 
+	// Get list of currently ordered offers
 	ords, er := Db.Table("orders").Select(
-		"orders.offer_id").Rows()
+		"orders.offer_id").Where("orders.end_time::date <= date '1000-01-01'").Rows()
 	if er != nil {
 		return nil, er
 	}
-
 	rows, err := Db.Table("offers").Select(
 		"airports.name, helicopters.manufacturer, helicopters.type, offers.price, offers.id").Joins(
 		"join airports on airports.id = offers.airport_id").Joins(
@@ -155,7 +180,7 @@ func GetCurrentOffers() (map[string][]*OffersRow, error) {
 		isOrdered = false
 		// Get list of orders again
 		ords, er = Db.Table("orders").Select(
-			"orders.offer_id").Rows()
+			"orders.offer_id").Where("orders.end_time::date <= date '0001-01-01'").Rows()
 		if er != nil {
 			return nil, er
 		}
@@ -170,4 +195,8 @@ func GroupByAirport(offers []*OffersRow) map[string][]*OffersRow {
 		offersMap[offer.Airport] = append(offersMap[offer.Airport], offer)
 	}
 	return offersMap
+}
+
+func AddEndTimeToOrder(orderID int) {
+	Db.Table("orders").Where("id= ?", orderID).Update("end_time", time.Now().Local())
 }

@@ -22,7 +22,7 @@ ORDER DATE: %s
 
 %s
 
-Your return code: %02X
+Your return code: %s
 
 In case you have some questions contact us:
 E-mail: flyitservice@gmail.com.
@@ -46,12 +46,11 @@ func sendMail(recipient string, subject string, body string) {
 	}
 }
 
-func sendOrderMail(recipient string, orderNum uint, orderTime time.Time, returnCode []byte, goods string) {
+func sendOrderMail(recipient string, orderNum uint, orderTime time.Time, returnCode string, goods string) {
 	/*    sendMail(recipient,
 	                   fmt.Sprintf("Your FlyIT order %06d", orderNum)
 		               fmt.Sprintf(orderMsg, orderNum, orderTime.Format("2006-01-31"), goods, returnCode)
 	*/
-
 	fmt.Println(fmt.Sprintf("Your FlyIT order %06d", orderNum))
 	fmt.Println(fmt.Sprintf(orderMsg, orderNum, orderTime.Format("2006-01-31"), goods, returnCode))
 }
