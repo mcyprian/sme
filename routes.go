@@ -107,7 +107,17 @@ func orderFlight(writer http.ResponseWriter, request *http.Request) {
 	fmt.Println(order)
 	storage.Db.Create(&order)
 	sendOrderMail(order.Email, order.ID, order.StartTime, order.ReturnCode, manufacturer+" - "+aircraftType)
-	http.Redirect(writer, request, "/", 302)
+	msg := `Dear %s, <br><br>
+	selected aircraft was successfully reserved.
+	<br>
+	Please wait for confirmation e-mail with your return code.
+	<br><br>
+	Thank you,
+	<br>
+	FlyIT team`
+
+	generateHTML(writer, fmt.Sprintf(msg, order.Name), "base", "navbar", "return", "return_confirm")
+	// http.Redirect(writer, request, "/", 302)
 }
 
 func return_confirm(writer http.ResponseWriter, request *http.Request) {
@@ -122,7 +132,7 @@ func return_confirm(writer http.ResponseWriter, request *http.Request) {
 		generateHTML(writer, "Return denied. WRONG return code.", "base", "navbar", "return", "return_confirm")
 	} else {
 		storage.AddEndTimeToOrder(offer.OrderID)
-		generateHTML(writer, "Aicraft was successfully returned. Thank you", "base", "navbar", "return", "return_confirm")
+		generateHTML(writer, "Dear "+offer.Name+",<br><br> your aicraft was successfully returned.<br><br>Thank you,<br> FlyIT team", "base", "navbar", "return", "return_confirm")
 	}
 }
 
