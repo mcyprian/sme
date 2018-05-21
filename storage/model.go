@@ -37,7 +37,7 @@ type Order struct {
 	Name       string
 	Email      string
 	Phone      string
-	ReturnCode []byte
+	ReturnCode string
 	OfferID    uint
 }
 
