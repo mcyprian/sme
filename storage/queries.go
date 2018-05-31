@@ -26,7 +26,6 @@ func GenerateExampleData() {
 	blanik := Helicopter{Manufacturer: "Blanik", Type: "L13 MUNI-1823"}
 	blanikS := Helicopter{Manufacturer: "Blanik", Type: "Super L23 MUNI-5550"}
 	orlik := Helicopter{Manufacturer: "Orlik", Type: "VT116 MUNI-4321"}
-	vosa := Helicopter{Manufacturer: "Vosa", Type: "VSO10 MUNI-1504"}
 
 	Db.Create(&medlanky)
 	Db.Create(&turany)
@@ -40,7 +39,6 @@ func GenerateExampleData() {
 	Db.Create(&blanik)
 	Db.Create(&blanikS)
 	Db.Create(&orlik)
-	Db.Create(&vosa)
 
 	flight := Order{StartTime: time.Now(), EndTime: time.Now().Add(time.Hour * 3),
 		Name: "Ondrej Nečas", Email: "onecas@seznam.cz",

@@ -2,8 +2,7 @@
 <a class="plane-thumbnail-link"
   href="/order?type={{ .Type }}&airport={{ .Airport }}&manufacturer={{ .Manufacturer }}&offerID={{ .OfferID }}">
   <div class="plane-thumbnail box-shadow">
-    <div class="plane-thumbnail-image image">
-    </div>
+    <div class="image" style="background-image: url('/static/images/{{ .Manufacturer }}.jpg')"></div>
     <div class="plane-thumbnail-body">
       <h5>{{ .Manufacturer }} {{ .Type }} </h5>
       <p>from <b>{{ .Price }}€/hour</b></p>

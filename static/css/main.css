@@ -89,10 +89,6 @@ div.image {
   cursor: pointer;
 }
 
-.plane-thumbnail-image {
-  background-image: url("http://www.copterstuff.com/rhctraining.com/assets/img/hero-R44-helicopter.jpg");
-}
-
 .plane-thumbnail-body {
   padding: 5px;
   background-color: #fafafa;
