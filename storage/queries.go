@@ -114,25 +114,32 @@ type OrderRow struct {
 	OrderID    int
 	Name       string
 	ReturnCode string
+	EndTime    time.Time
 }
 
-func GetOrder(returnCode string) *OrderRow {
-	ords, err := Db.Table("orders").Select(
-		"orders.id, orders.name, orders.return_code").Rows()
+func GetOrder(returnCode string) (*OrderRow, bool) {
+	ords, err := Db.Table("orders").
+		Select("orders.id, orders.name, orders.return_code, orders.end_time").
+		Rows()
 	if err != nil {
 		panic(err)
 	}
-	orderToReturn := new(OrderRow)
 
 	for ords.Next() {
-		err = ords.Scan(&orderToReturn.OrderID, &orderToReturn.Name, &orderToReturn.ReturnCode)
-		if orderToReturn.ReturnCode == returnCode {
-			return orderToReturn
+		orderToReturn := new(OrderRow)
+		err = ords.Scan(
+			&orderToReturn.OrderID,
+			&orderToReturn.Name,
+			&orderToReturn.ReturnCode,
+			&orderToReturn.EndTime,
+		)
+		// if EndTime is set it means the plane is already returned
+		if orderToReturn.ReturnCode == returnCode && orderToReturn.EndTime.IsZero() {
+			return orderToReturn, true
 		}
 	}
 	// signalize no order with this return code
-	orderToReturn.OrderID = -1
-	return orderToReturn
+	return nil, false
 }
 
 func GetCurrentOffers() (map[string][]*OffersRow, error) {
