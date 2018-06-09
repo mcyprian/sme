@@ -1,7 +1,6 @@
 package storage
 
 import (
-	"fmt"
 	"time"
 )
 
@@ -69,15 +68,10 @@ func QueryExampleData() {
 
 	Db.Last(&airport)
 	Db.First(&helicopter)
-	fmt.Println(airport)
 
-	// Db.Find(&offers)
-	// Db.Model(&airport).Related(&offers)
 	Db.Model(&helicopter).Related(&offers)
 	Db.Model(&offers[0]).Related(&orders)
 	Db.Find(&orders)
-	fmt.Println(offers)
-	fmt.Println(orders)
 }
 
 type OffersRow struct {

@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"net/smtp"
 	"time"
 )
@@ -47,10 +48,11 @@ func sendMail(recipient string, subject string, body string) {
 }
 
 func sendOrderMail(recipient string, orderNum uint, orderTime time.Time, returnCode string, goods string) {
-	/*    sendMail(recipient,
-	                   fmt.Sprintf("Your FlyIT order %06d", orderNum)
-		               fmt.Sprintf(orderMsg, orderNum, orderTime.Format("2006-01-02"), goods, returnCode)
-	*/
-	fmt.Println(fmt.Sprintf("Your FlyIT order %06d", orderNum))
-	fmt.Println(fmt.Sprintf(orderMsg, orderNum, orderTime.Format("2006-01-02"), goods, returnCode))
+	log.Println(fmt.Sprintf("Your FlyIT order %06d", orderNum))
+	log.Println(fmt.Sprintf(orderMsg, orderNum, orderTime.Format("2006-01-02"), goods, returnCode))
+	sendMail(
+		recipient,
+		fmt.Sprintf("Your FlyIT order %06d", orderNum),
+		fmt.Sprintf(orderMsg, orderNum, orderTime.Format("2006-01-02"), goods, returnCode),
+	)
 }

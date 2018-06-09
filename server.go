@@ -1,7 +1,7 @@
 package main
 
 import (
-	"fmt"
+	"log"
 	"net/http"
 	"time"
 
@@ -29,6 +29,6 @@ func main() {
 		ReadTimeout:  time.Duration(config.ReadTimeout * int64(time.Second)),
 		WriteTimeout: time.Duration(config.WriteTimeout * int64(time.Second)),
 	}
-	fmt.Println("Listening at: http://0.0.0.0:8080")
+	log.Println("Listening at: http://0.0.0.0:8080")
 	server.ListenAndServe()
 }
