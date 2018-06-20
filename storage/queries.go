@@ -16,8 +16,9 @@ func GenerateExampleData() {
 	turany := Airport{Name: "Letište Tuřany", Address: "Tuřany 904/1, Brno"}
 
 	ranger := Helicopter{Manufacturer: "Bell", Type: "505 Jet Ranger X"}
-	sikorsky := Helicopter{Manufacturer: "Sikorsky", Type: "S-76C"}
+	sikorsky := Helicopter{Manufacturer: "Sikorsky", Type: "S 300"}
 	eurocopter := Helicopter{Manufacturer: "Eurocopter", Type: "AS350"}
+	robinson := Helicopter{Manufacturer: "Robinson", Type: "R22"}
 	dynamic := Helicopter{Manufacturer: "Dynamic", Type: "WT9 MUNI-OUU 34"}
 	zlin := Helicopter{Manufacturer: "Zlin", Type: "Z-226 MUNI-MGM"}
 	piper := Helicopter{Manufacturer: "Piper", Type: "J3C-65 Cub MUNI-ONY"}
@@ -31,6 +32,7 @@ func GenerateExampleData() {
 	Db.Create(&ranger)
 	Db.Create(&sikorsky)
 	Db.Create(&eurocopter)
+	Db.Create(&robinson)
 	Db.Create(&dynamic)
 	Db.Create(&zlin)
 	Db.Create(&piper)
@@ -39,25 +41,83 @@ func GenerateExampleData() {
 	Db.Create(&blanikS)
 	Db.Create(&orlik)
 
-	flight := Order{StartTime: time.Now(), EndTime: time.Now().Add(time.Hour * 3),
-		Name: "Ondrej Nečas", Email: "onecas@seznam.cz",
-		Phone: "+421 758 633 715"}
-
-	cheap := Offer{HelicopterID: ranger.ID, Price: 100.0}
-	sport := Offer{HelicopterID: eurocopter.ID, Price: 180.0}
-	zlinoffer := Offer{HelicopterID: zlin.ID, Price: 90.0}
-
-	offer := Offer{HelicopterID: zlin.ID, Price: 150.0}
+	offer := Offer{HelicopterID: ranger.ID, Price: 580.0}
 	Db.Create(&offer)
 	Db.Model(&turany).Association("Offers").Append(offer)
 
-	Db.Create(&cheap)
-	Db.Create(&sport)
+	offer = Offer{HelicopterID: sikorsky.ID, Price: 350.0}
+	Db.Create(&offer)
+	Db.Model(&turany).Association("Offers").Append(offer)
 
-	Db.Model(&medlanky).Association("Offers").Append(cheap)
-	Db.Model(&medlanky).Association("Offers").Append(zlinoffer)
-	Db.Model(&turany).Association("Offers").Append(sport)
-	Db.Model(&cheap).Association("Orders").Append(flight)
+	offer = Offer{HelicopterID: eurocopter.ID, Price: 490.0}
+	Db.Create(&offer)
+	Db.Model(&turany).Association("Offers").Append(offer)
+
+	offer = Offer{HelicopterID: robinson.ID, Price: 350.0}
+	Db.Create(&offer)
+	Db.Model(&turany).Association("Offers").Append(offer)
+
+	offer = Offer{HelicopterID: dynamic.ID, Price: 200.0}
+	Db.Create(&offer)
+	Db.Model(&turany).Association("Offers").Append(offer)
+
+	offer = Offer{HelicopterID: zlin.ID, Price: 150.0}
+	Db.Create(&offer)
+	Db.Model(&turany).Association("Offers").Append(offer)
+
+	offer = Offer{HelicopterID: piper.ID, Price: 250.0}
+	Db.Create(&offer)
+	Db.Model(&turany).Association("Offers").Append(offer)
+
+	offer = Offer{HelicopterID: piperPaw.ID, Price: 240.0}
+	Db.Create(&offer)
+	Db.Model(&turany).Association("Offers").Append(offer)
+
+	offer = Offer{HelicopterID: blanik.ID, Price: 45.0}
+	Db.Create(&offer)
+	Db.Model(&turany).Association("Offers").Append(offer)
+
+	offer = Offer{HelicopterID: blanikS.ID, Price: 50.0}
+	Db.Create(&offer)
+	Db.Model(&turany).Association("Offers").Append(offer)
+
+	offer = Offer{HelicopterID: orlik.ID, Price: 55.0}
+	Db.Create(&offer)
+	Db.Model(&turany).Association("Offers").Append(offer)
+
+	// MEDLANKY
+	offer = Offer{HelicopterID: zlin.ID, Price: 150.0}
+	Db.Create(&offer)
+	Db.Model(&medlanky).Association("Offers").Append(offer)
+
+	offer = Offer{HelicopterID: dynamic.ID, Price: 200.0}
+	Db.Create(&offer)
+	Db.Model(&medlanky).Association("Offers").Append(offer)
+
+	offer = Offer{HelicopterID: robinson.ID, Price: 350.0}
+	Db.Create(&offer)
+	Db.Model(&medlanky).Association("Offers").Append(offer)
+
+	offer = Offer{HelicopterID: sikorsky.ID, Price: 350.0}
+	Db.Create(&offer)
+	Db.Model(&medlanky).Association("Offers").Append(offer)
+
+	offer = Offer{HelicopterID: blanik.ID, Price: 45.0}
+	Db.Create(&offer)
+	Db.Model(&medlanky).Association("Offers").Append(offer)
+
+	offer = Offer{HelicopterID: orlik.ID, Price: 55.0}
+	Db.Create(&offer)
+	Db.Model(&medlanky).Association("Offers").Append(offer)
+
+	// flight := Order{StartTime: time.Now(), EndTime: time.Now().Add(time.Hour * 3),
+	// 	Name: "Ondrej Nečas", Email: "onecas@seznam.cz",
+	// 	Phone: "+421 758 633 715"}
+
+	// // cheap := Offer{HelicopterID: ranger.ID, Price: 100.0}
+	// // Db.Create(&cheap)
+	// // Db.Model(&cheap).Association("Orders").Append(flight)
+
 }
 
 func QueryExampleData() {
